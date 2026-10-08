@@ -1,0 +1,10 @@
+# Environments
+.venv/
+venv/
+env/
+ENV/
+
+# CSV Files
+*.csv
+
+lab4/flights.csv
