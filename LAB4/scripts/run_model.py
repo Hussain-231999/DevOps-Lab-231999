@@ -16,9 +16,11 @@ model_path = Path(__file__).resolve().parents[1] / "models" / "flight_delay_mode
 with open(model_path, "rb") as file:
     artifact = pickle.load(file)
 
-preprocessor = artifact["preprocessor"]
-model = artifact["models"]["XGBoost"]
-threshold = artifact["thresholds"]["XGBoost"]
+experiments = artifact["experiments"]
+experiment_name = next(iter(experiments))
+experiment = experiments[experiment_name]
+model_name = next(iter(experiment["models"]))
+model_info = experiment["models"][model_name]
 
 print("Enter flight details:")
 new_flight_data = pd.DataFrame(
@@ -39,9 +41,24 @@ new_flight_data = pd.DataFrame(
     ]
 )
 
-processed_data = preprocessor.transform(new_flight_data)
-probability = model.predict_proba(processed_data)[:, 1][0]
-prediction = int(probability >= threshold)
+new_flight_data["IS_PEAK_HOURS"] = new_flight_data[
+    "SCHEDULED_DEPARTURE_HOUR"
+].isin([6, 7, 8, 16, 17, 18, 19, 20]).astype(int)
+new_flight_data["IS_RED_EYE"] = new_flight_data[
+    "SCHEDULED_DEPARTURE_HOUR"
+].isin([23, 0, 1, 2, 3, 4]).astype(int)
+new_flight_data["SCHEDULED_SPEED"] = new_flight_data["DISTANCE"] / new_flight_data[
+    "SCHEDULED_TIME"
+].clip(lower=1)
+new_flight_data["ROUTE"] = (
+    new_flight_data["ORIGIN_AIRPORT"]
+    + "_"
+    + new_flight_data["DESTINATION_AIRPORT"]
+)
+new_flight_data = new_flight_data[experiment["feature_columns"]]
+processed_data = experiment["preprocessor"].transform(new_flight_data)
+probability = model_info["model"].predict_proba(processed_data)[:, 1][0]
+prediction = int(probability >= model_info["threshold"])
 
 print(f"Delay probability: {probability:.4f}")
 print(f"Prediction: {'Delayed' if prediction else 'Not delayed'}")

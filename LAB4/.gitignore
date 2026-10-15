@@ -6,5 +6,6 @@ ENV/
 
 # CSV Files
 *.csv
+__pycache__/
 
 lab4/flights.csv

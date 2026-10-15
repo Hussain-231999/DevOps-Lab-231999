@@ -40,6 +40,14 @@ lab4/
    models/flight_delay_models.pkl
    ```
 
+   The artifact contains both the strict pre-departure experiment and the
+   target-leakage comparison, including the fitted preprocessing pipeline,
+   model thresholds, and feature metadata.
+
+   The Tkinter UI exposes only the strict pre-departure experiment because
+   the target-leakage comparison requires `DEPARTURE_DELAY`, which is not
+   available before a flight departs.
+
 ## Run the pickle file
 
 1. Make sure `models/flight_delay_models.pkl` is present.
@@ -62,4 +70,7 @@ lab4/
    py app/app.py
    ```
 
-2. Select a value from each dropdown menu and click **Predict delay**.
+2. Select the experiment and model, choose a value from each flight-detail
+   dropdown, and click **Predict delay**. The UI derives the engineered
+   features used by the updated training script, including route, scheduled
+   speed, peak-hour, and red-eye indicators.
