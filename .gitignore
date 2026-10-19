@@ -7,3 +7,6 @@ __pycache__/
 venv/
 env/
 ENV/
+
+# Local demonstration notes
+CI_CD_DEMO_GUIDE.md
