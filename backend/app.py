@@ -11,7 +11,7 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 MODEL_PATH = Path(
     os.environ.get(
         "MODEL_PATH",
-        str(ROOT_DIR / "lab4" / "models" / "flight_delay_models.pkl"),
+        str(ROOT_DIR / "LAB4" / "models" / "flight_delay_models.pkl"),
     )
 )
 

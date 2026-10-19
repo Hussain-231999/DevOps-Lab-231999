@@ -30,7 +30,7 @@ frontend/
 backend/
 ├── app.py
 └── requirements.txt
-lab4/
+LAB4/
 ├── app/app.py
 ├── data/flights.csv
 ├── models/flight_delay_models.pkl
@@ -64,7 +64,7 @@ is available at <http://localhost:5000/health>.
 1. Open PowerShell in this folder:
 
    ```powershell
-   cd "L:\AU\SEM-7\DevOps\LAB\Lab Repo\lab4"
+   cd "L:\AU\SEM-7\DevOps\LAB\Lab Repo\LAB4"
    ```
 
 2. Install the required packages:
