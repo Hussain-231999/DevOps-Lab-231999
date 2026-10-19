@@ -23,6 +23,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/DevOps-Lab-231999/",
               "budgets": [
                 {
                   "type": "initial",

@@ -53,7 +53,7 @@ jobs:
       - name: Upload website artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./frontend/dist/flight-delay-frontend
+          path: ./frontend/dist/flight-delay-frontend/browser
 
       - name: Deploy to GitHub Pages
         id: deployment
