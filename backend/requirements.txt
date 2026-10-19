@@ -1,0 +1,3 @@
+-r ../lab4/requirements.txt
+Flask
+flask-cors

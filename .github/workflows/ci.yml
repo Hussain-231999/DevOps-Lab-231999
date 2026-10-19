@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: lab4/requirements.txt
+
+      - name: Install dependencies
+        run: python -m pip install -r backend/requirements.txt
+
+      - name: Compile Python files
+        run: python -m compileall -q backend lab4
+
+      - name: Validate trained model artifact
+        working-directory: lab4
+        run: |
+          python - <<'PY'
+          import pickle
+          from pathlib import Path
+
+          model_path = Path("models/flight_delay_models.pkl")
+
+          if not model_path.exists():
+              raise FileNotFoundError(model_path)
+
+          with model_path.open("rb") as file:
+              artifact = pickle.load(file)
+
+          if "experiments" not in artifact:
+              raise ValueError("Model artifact does not contain experiments")
+
+          if not artifact["experiments"]:
+              raise ValueError("Model artifact contains no experiments")
+
+          print("Model artifact validation passed")
+          PY
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Angular dependencies
+        working-directory: frontend
+        run: npm install
+
+      - name: Build Angular frontend
+        working-directory: frontend
+        run: npm run build

@@ -1,0 +1,45 @@
+<header class="hero">
+  <div>
+    <p class="eyebrow">CI/CD machine-learning application</p>
+    <h1>Flight Delay Prediction</h1>
+    <p>Angular frontend communicating with a Flask API and trained model.</p>
+  </div>
+</header>
+
+<main>
+  <section class="card intro">
+    <h2>Prediction module</h2>
+    <p>Enter pre-departure details and send them to the Flask inference API.</p>
+  </section>
+
+  <section class="card">
+    <form (ngSubmit)="predict()" #flightForm="ngForm">
+      <div class="grid">
+        <label>Month <input type="number" name="MONTH" [(ngModel)]="form.MONTH" min="1" max="12" required></label>
+        <label>Day <input type="number" name="DAY" [(ngModel)]="form.DAY" min="1" max="31" required></label>
+        <label>Day of week <input type="number" name="DAY_OF_WEEK" [(ngModel)]="form.DAY_OF_WEEK" min="1" max="7" required></label>
+        <label>Airline <input name="AIRLINE" [(ngModel)]="form.AIRLINE" required></label>
+        <label>Origin airport <input name="ORIGIN_AIRPORT" [(ngModel)]="form.ORIGIN_AIRPORT" required></label>
+        <label>Destination airport <input name="DESTINATION_AIRPORT" [(ngModel)]="form.DESTINATION_AIRPORT" required></label>
+        <label>Scheduled time (minutes) <input type="number" name="SCHEDULED_TIME" [(ngModel)]="form.SCHEDULED_TIME" min="1" required></label>
+        <label>Distance (miles) <input type="number" name="DISTANCE" [(ngModel)]="form.DISTANCE" min="1" required></label>
+        <label>Departure hour <input type="number" name="SCHEDULED_DEPARTURE_HOUR" [(ngModel)]="form.SCHEDULED_DEPARTURE_HOUR" min="0" max="23" required></label>
+      </div>
+      <button type="submit" [disabled]="flightForm.invalid || loading">
+        {{ loading ? 'Predicting...' : 'Predict delay' }}
+      </button>
+    </form>
+  </section>
+
+  @if (result) {
+    <section class="card result" [class.delayed]="result.prediction === 'Delayed'">
+      <h2>{{ result.prediction }}</h2>
+      <p>Delay probability: <strong>{{ result.delay_probability | percent:'1.1-1' }}</strong></p>
+      <p class="muted">Model: {{ result.model }}</p>
+    </section>
+  }
+
+  @if (error) {
+    <section class="card error">{{ error }}</section>
+  }
+</main>

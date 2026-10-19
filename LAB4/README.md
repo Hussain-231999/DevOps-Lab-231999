@@ -1,16 +1,63 @@
 # Flight Delay Prediction
 
+## Angular, Flask, CI/CD, and GitHub Pages
+
+This repository uses GitHub Actions for continuous integration and deployment:
+
+- `CI` installs the Flask and Angular dependencies, compiles the Python source,
+  validates the trained model artifact, and builds the Angular production bundle
+  on pushes and pull requests.
+- `Deploy GitHub Pages` runs after a successful `CI` workflow and publishes the
+  Angular production bundle from `frontend/dist/`.
+
+The published project website is available at:
+
+<https://hussain-231999.github.io/DevOps-Lab-231999/>
+
+The Angular frontend calls the Flask inference API at `http://localhost:5000`.
+GitHub Pages hosts the frontend, while the Flask backend must run locally or on a
+separate Python-capable server. The original Tkinter application is still
+available as a local desktop interface.
+
 ## Project structure
 
 ```text
+frontend/
+├── src/app/app.component.ts
+├── src/app/app.component.html
+├── package.json
+└── angular.json
+backend/
+├── app.py
+└── requirements.txt
 lab4/
 ├── app/app.py
 ├── data/flights.csv
 ├── models/flight_delay_models.pkl
-├── scripts/train_model.py
-├── scripts/run_model.py
-└── README.md
+├── requirements.txt
+└── scripts/
 ```
+
+## Run the Flask API and Angular frontend
+
+Start the backend in one PowerShell window:
+
+```powershell
+cd "L:\AU\SEM-7\DevOps\LAB\Lab Repo"
+py -m pip install -r backend/requirements.txt
+py backend/app.py
+```
+
+Start the Angular development server in another PowerShell window:
+
+```powershell
+cd "L:\AU\SEM-7\DevOps\LAB\Lab Repo\frontend"
+npm install
+npm start
+```
+
+Open <http://localhost:4200/> and use the prediction form. The API health check
+is available at <http://localhost:5000/health>.
 
 ## Run the training code
 
@@ -23,7 +70,7 @@ lab4/
 2. Install the required packages:
 
    ```powershell
-   py -m pip install numpy pandas scikit-learn xgboost matplotlib
+   py -m pip install -r requirements.txt
    ```
 
 3. Make sure `data/flights.csv` is present.
