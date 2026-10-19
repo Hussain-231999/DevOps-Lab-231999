@@ -41,8 +41,7 @@ Install the following:
 
 - Git
 - Python 3.11 or a compatible newer Python version
-- Node.js 20 or newer
-- npm
+- NVM for Windows (`nvm-windows`)
 - A GitHub account with access to the repository
 
 Check the installations:
@@ -50,6 +49,29 @@ Check the installations:
 ```powershell
 git --version
 py --version
+nvm version
+node --version
+npm --version
+```
+
+NVM manages Node.js versions. npm is installed automatically with each Node.js
+version selected by NVM; npm is not installed separately.
+
+If Node.js is not currently installed through NVM, open PowerShell as
+Administrator and run:
+
+```powershell
+nvm list available
+nvm install 20.19.0
+nvm use 20.19.0
+```
+
+If that exact version is unavailable, install the latest available Node.js 20
+version shown by `nvm list available`, then select it with `nvm use`.
+
+Close and reopen PowerShell after `nvm use`, then verify:
+
+```powershell
 node --version
 npm --version
 ```
@@ -69,6 +91,14 @@ If it is already cloned:
 cd "L:\AU\SEM-7\DevOps\LAB\Lab Repo"
 git pull origin main
 ```
+
+The demo guide is at the repository root:
+
+```text
+L:\AU\SEM-7\DevOps\LAB\Lab Repo\CI_CD_DEMO_GUIDE.md
+```
+
+It is not inside the `LAB4` folder.
 
 Always confirm that the working tree is clean before starting:
 
