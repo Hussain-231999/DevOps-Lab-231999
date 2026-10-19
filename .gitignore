@@ -10,3 +10,7 @@ ENV/
 
 # Local demonstration notes
 CI_CD_DEMO_GUIDE.md
+
+# Angular generated files
+frontend/node_modules/
+frontend/.angular/
