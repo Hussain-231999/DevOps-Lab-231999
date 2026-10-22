@@ -8,7 +8,7 @@ This repository uses GitHub Actions for continuous integration and deployment:
   validates the trained model artifact, and builds the Angular production bundle
   on pushes and pull requests.
 - `Deploy GitHub Pages` runs after a successful `CI` workflow and publishes the
-  Angular production bundle from `frontend/dist/`.
+  Angular production bundle from `frontend/dist/flight-delay-frontend/browser`.
 
 The published project website is available at:
 
@@ -30,7 +30,7 @@ frontend/
 backend/
 ├── app.py
 └── requirements.txt
-LAB4/
+ml/
 ├── app/app.py
 ├── data/flights.csv
 ├── models/flight_delay_models.pkl
@@ -64,7 +64,7 @@ is available at <http://localhost:5000/health>.
 1. Open PowerShell in this folder:
 
    ```powershell
-   cd "L:\AU\SEM-7\DevOps\LAB\Lab Repo\LAB4"
+   cd "L:\AU\SEM-7\DevOps\LAB\Lab Repo\ml"
    ```
 
 2. Install the required packages:

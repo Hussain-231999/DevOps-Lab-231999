@@ -30,10 +30,10 @@ jobs:
         run: python -m pip install -r backend/requirements.txt
 
       - name: Compile Python files
-        run: python -m compileall -q backend LAB4
+        run: python -m compileall -q backend ml
 
       - name: Validate trained model artifact
-        working-directory: LAB4
+        working-directory: ml
         run: |
           python - <<'PY'
           import pickle
