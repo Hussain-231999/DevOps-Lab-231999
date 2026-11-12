@@ -1,0 +1,72 @@
+{
+  "base_paper": "Flight Delay Prediction Using Machine Learning Algorithm XGBoost",
+  "dataset": "L:\\AU\\SEM-7\\DevOps\\LAB\\Lab Repo\\ml\\data\\flights.csv",
+  "sample_fraction_per_chunk": 0.2,
+  "base_paper_feature_columns": [
+    "YEAR",
+    "MONTH",
+    "DAY",
+    "DAY_OF_WEEK",
+    "AIRLINE",
+    "FLIGHT_NUMBER",
+    "TAIL_NUMBER",
+    "ORIGIN_AIRPORT",
+    "DESTINATION_AIRPORT",
+    "SCHEDULED_DEPARTURE",
+    "DEPARTURE_TIME",
+    "DEPARTURE_DELAY",
+    "TAXI_OUT",
+    "WHEELS_OFF",
+    "SCHEDULED_TIME",
+    "AIR_TIME",
+    "DISTANCE",
+    "SCHEDULED_ARRIVAL",
+    "ARRIVAL_TIME"
+  ],
+  "strict_pre_departure_feature_columns": [
+    "YEAR",
+    "MONTH",
+    "DAY",
+    "DAY_OF_WEEK",
+    "AIRLINE",
+    "FLIGHT_NUMBER",
+    "TAIL_NUMBER",
+    "ORIGIN_AIRPORT",
+    "DESTINATION_AIRPORT",
+    "SCHEDULED_DEPARTURE",
+    "SCHEDULED_TIME",
+    "DISTANCE",
+    "SCHEDULED_ARRIVAL"
+  ],
+  "target": "ARRIVAL_DELAY",
+  "split": {
+    "test_size": 0.2,
+    "random_state": 42
+  },
+  "metrics": {
+    "base_paper_operational": {
+      "Linear Regression": {
+        "MAE": 2.7081,
+        "RMSE": 4.9604,
+        "R2": 0.984
+      },
+      "XGBoost": {
+        "MAE": 4.9379,
+        "RMSE": 8.9955,
+        "R2": 0.9473
+      }
+    },
+    "strict_pre_departure": {
+      "Linear Regression": {
+        "MAE": 20.8741,
+        "RMSE": 38.7079,
+        "R2": 0.0248
+      },
+      "XGBoost": {
+        "MAE": 20.2981,
+        "RMSE": 38.1269,
+        "R2": 0.0539
+      }
+    }
+  }
+}

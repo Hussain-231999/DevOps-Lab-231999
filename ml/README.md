@@ -19,6 +19,75 @@ GitHub Pages hosts the frontend, while the Flask backend must run locally or on 
 separate Python-capable server. The original Tkinter application is still
 available as a local desktop interface.
 
+## Base paper and research contribution
+
+The selected base paper is
+`FlightDelayPredictionUsingMachineLearningAlgorithmXGBoost20192117.pdf`,
+*Flight Delay Prediction Using Machine Learning Algorithm XGBoost*.
+The paper uses the public 2015 U.S. domestic flight dataset from the Bureau of
+Transportation Statistics, applies preprocessing and an 80/20 split, and
+compares XGBoost with linear regression techniques.
+
+The repository's `data/flights.csv` is the same underlying 2015 U.S. flight
+dataset family. The paper reports a processed dataset with 19 features, while
+the current source file contains 31 columns, so the reproduction must document
+the selected features, target definition, filtering, and split before reporting
+a direct comparison. The current artifact's strict pre-departure XGBoost result
+(ROC-AUC 0.7089, F1-score 0.4137) must not be presented as the paper's result
+until that protocol is matched.
+
+The intended research contribution is a leakage-aware, pre-departure
+evaluation that improves the paper's practical reliability. Path B is the
+deployable primary experiment because it excludes `DEPARTURE_DELAY`. Path A is
+not a second production model or a requirement of the paper; retain it only as
+a separate leakage diagnostic showing how post-departure information inflates
+performance.
+
+### Reproduction and comparison workflow
+
+Run the base-paper-aligned regression baseline with:
+
+```powershell
+py scripts/reproduce_base_paper.py
+```
+
+This uses the base paper's described 19 operational predictors, predicts continuous
+`ARRIVAL_DELAY`, uses an 80/20 split, and reports MAE, RMSE, and R2 for Linear
+Regression and XGBoost. It also evaluates the same regression task using only
+pre-departure predictors. Results are saved to
+`models/base_paper_results.json`. The base paper is not sufficiently explicit about
+every preprocessing detail or a single reproducible benchmark table, so the
+script records its assumptions instead of claiming an exact numerical
+reproduction.
+
+The full run currently reports the following on the repository dataset sample:
+
+| Experiment | Model | MAE | RMSE | R2 |
+| --- | --- | ---: | ---: | ---: |
+| Paper-aligned operational | Linear Regression | 2.7081 | 4.9604 | 0.9840 |
+| Paper-aligned operational | XGBoost | 4.9379 | 8.9955 | 0.9473 |
+| Strict pre-departure | Linear Regression | 20.8741 | 38.7079 | 0.0248 |
+| Strict pre-departure | XGBoost | 20.2981 | 38.1269 | 0.0539 |
+
+The large gap between the operational and strict results is evidence that
+post-departure variables, especially `DEPARTURE_DELAY`, make the paper-aligned
+task substantially easier. The strict results are the fair comparison for the
+proposed leakage-aware contribution; the existing Path B classification
+metrics are a separate deployment-oriented task and should not be compared
+directly with regression MAE or R2. The current results support a stronger
+validity claim, not a claim of higher raw accuracy than the leakage-using
+baseline.
+
+The research comparison is therefore:
+
+1. `reproduce_base_paper.py`: base-paper-aligned operational regression baseline.
+2. Path B in `train_model.py`: proposed strict pre-departure classifier.
+3. Path A: optional leakage diagnostic, excluded from deployment.
+
+The proposed contribution is the explicit separation of deployable
+pre-departure information from post-departure leakage, with both protocols and
+their limitations reported transparently.
+
 ## Project structure
 
 ```text
